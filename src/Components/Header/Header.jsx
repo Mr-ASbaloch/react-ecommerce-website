@@ -1,19 +1,19 @@
 import { Menu } from "antd";
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
 
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-//   const onMenuClick = (item) => {
-//     navigate(`/${item.key}`);
-//   };
+  const onMenuClick = (item) => {
+    navigate(`/${item.key}`);
+  };
   return (
     <div>
     
      <Menu
-    //   onClick={onMenuClick}
+      onClick={onMenuClick}
         mode="horizontal"
         items={[
           { label: "Home", key: "" },
