@@ -13,6 +13,7 @@ const Header = () => {
     <div>
     
      <Menu
+
       onClick={onMenuClick}
         mode="horizontal"
         items={[
@@ -40,7 +41,12 @@ const Header = () => {
 
           { label: "Fragrances", key: "fragrances  " },
         ]}
-      ></Menu>
+     
+
+
+        className='bg-slate-200  text-xl text-blue-800'
+     
+     ></Menu>
    
     </div>
   );
