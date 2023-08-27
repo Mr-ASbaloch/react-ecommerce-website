@@ -39,9 +39,10 @@ const [loading ,setLoading] =useState (false)
   }
 
   return (
-    <div className="flex ">
+    <div className="flex mt-10 ">
       <List
-        grid={{ column: 3 }}
+      className='m-5'
+        grid={{ column: 3 } }
         renderItem={(product, index) => {
           return (
             <>
@@ -52,7 +53,7 @@ const [loading ,setLoading] =useState (false)
                 cover={
                   <Image
                     src={product.thumbnail}
-                    className="!h-[250px] !w-[250px] m-auto object-cover "
+                    className="!h-[250px] !w-[250px] m-auto object-cover  "
                   /> 
                 }
                 actions={[ <Rate value={product.rating} allowHalf disabled/> , <AddToCartButton item={product}/> ]}
