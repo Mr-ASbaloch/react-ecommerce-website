@@ -1,20 +1,42 @@
 import React, { useEffect, useState } from "react";
-import getAllProducts from "../../APi";
-import { Badge, Button, Card, Col, Image, List, Rate, Typography } from "antd";
-import Column from "antd/es/table/Column";
+import  { addToCart, getProductByCategory } from "../../APi";
+import { useParams } from "react-router-dom";
+import { Badge, Button, Card, Image, List, Rate, Spin, Typography, message } from "antd";
+// import Category from "../../Pages/Category/Category";
+// import Column from "antd/es/table/Column";
 
 const Products = () => {
-  const [items, setItems] = useState([""]);
+  const [items, setItems] = useState([]);
+const [loading ,setLoading] =useState (false)
+ const param= useParams()
 
   useEffect(() => {
-    getAllProducts()
-      .then((response) => {
+    setLoading (true)
+    getProductByCategory(param.CategoryId).then((response) => {
         setItems(response.products);
+        setLoading(false)
       })
+    
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [param]);
+
+  if (loading)
+  {
+   return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Set the container height to 100% of the viewport
+      }}
+    >
+      <Spin spinning size="large" />
+    </div>
+  );
+  }
 
   return (
     <div className="flex ">
@@ -33,7 +55,7 @@ const Products = () => {
                     className="!h-[250px] !w-[250px] m-auto object-cover "
                   /> 
                 }
-                actions={[ <Rate value={product.rating} allowHalf disabled/> , <AddToCartButton/> ]}
+                actions={[ <Rate value={product.rating} allowHalf disabled/> , <AddToCartButton item={product}/> ]}
              >
               
                 <Card.Meta
@@ -70,9 +92,17 @@ const Products = () => {
 
 }
 
-const AddToCartButton =() =>{
+const AddToCartButton =({item}) =>{
+  const [loading, setLoading]= useState(false)
+   const addToCarts =()=>{
+    setLoading (true)
+    addToCart(item.id).then((response)=>{
+     message.success(`${item.title} Successfully added to cart`)
+ setLoading(false)
+    })
+   }
   return <>
-   <Button type="link" > Add to cart </Button>
+   <Button type="link"   className='bg-fuchsia-200 font-semibold'  onClick={addToCarts} loading={loading } > Add to cart </Button>
    </>
  
 }
