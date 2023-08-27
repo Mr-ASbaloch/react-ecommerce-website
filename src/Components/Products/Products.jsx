@@ -31,12 +31,11 @@ const Products = () => {
                   <Image
                     src={product.thumbnail}
                     className="!h-[250px] !w-[250px] m-auto object-cover "
-                  />
-                
+                  /> 
                 }
-                actions={ [<Rate value={product.rating} allowHalf disabled/> , <Button type="link"  className='bg-[#eaeaea] text-[#0c005a ] font-semibold'>Add to Cart</Button> ]}
-                className="m-4"
-              >
+                actions={[ <Rate value={product.rating} allowHalf disabled/> , <AddToCartButton/> ]}
+             >
+              
                 <Card.Meta
                   title={
                     <Typography.Paragraph>
@@ -65,7 +64,22 @@ const Products = () => {
         dataSource={items}
       ></List>
     </div>
-  );
-};
+  )
+
+   
+
+}
+
+const AddToCartButton =() =>{
+  return <>
+   <Button type="link" > Add to cart </Button>
+   </>
+ 
+}
+
+
+
 
 export default Products;
+
+
