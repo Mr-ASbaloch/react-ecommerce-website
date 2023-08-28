@@ -9,6 +9,12 @@ export const getProductByCategory = (Category) => {
     (res) => res.json()
   );
 };
+
+export const getCart= ()=>{
+  return fetch('https://dummyjson.com/carts/1')
+.then(res => res.json())
+}
+
 export const addToCart = (id) => {
   return fetch("https://dummyjson.com/carts/add", {
     method: "POST",

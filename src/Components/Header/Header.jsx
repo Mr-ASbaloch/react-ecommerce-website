@@ -1,7 +1,9 @@
-import { Badge, Drawer, Menu } from "antd";
+import { Badge, Button, Drawer, Form, Input, Menu, Table, message } from "antd";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "../../APi";
+import FormItem from "antd/es/form/FormItem";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -51,22 +53,112 @@ const Header = () => {
 
 function Addcart() {
   const [cart, setCart] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [checkCart, setCheckCart] = useState(false);
+  useEffect(() => {
+    getCart().then((res) => {
+      setCartItems(res.products);
+    });
+  });
   return (
     <div>
-      <Badge onClick={ ()=>{
-        setCart(true)
-      }} 
-      style={{margin:'4px'}}
-      count={6}>
+      <Badge
+        onClick={() => {
+          setCart(true);
+        }}
+        style={{ margin: "4px" }}
+        count={6}
+      >
         <AiOutlineShoppingCart
           size={30}
-        
           className=" flex  items-center  mt-2 mr-2 capitalize text-[red] font-bold cursor-pointer "
         />
       </Badge>
-      <Drawer open={cart} onClose={()=>{
-        setCart(false)
-      }}> </Drawer>
+      <Drawer
+        open={cart}
+        onClose={() => {
+          setCart(false);
+        }}
+        title="Your Cart"
+      >
+        <Button
+          onClick={() => {
+            setCheckCart(true);
+          }}
+          type="primary"
+          className="bg-black mb-2"
+        >
+          Check Out Your Cart
+        </Button>
+        <Table
+          columns={[
+            {
+              title: "Title",
+              dataIndex: "title",
+            },
+            {
+              title: "Price",
+              dataIndex: "price",
+              render: (value) => {
+                return (
+                  <>
+                    <span>${value}</span>
+                  </>
+                );
+              },
+            },
+            {
+              title: "Quantity",
+              dataIndex: "quantity",
+            },
+            {
+              title: "Total",
+              dataIndex: "total",
+              render: (value) => {
+                return (
+                  <>
+                    <span>${value}</span>
+                  </>
+                );
+              },
+            },
+          ]}
+          dataSource={cartItems}
+          pagination={false}
+        ></Table>
+      </Drawer>
+      <Drawer
+        open={checkCart}
+        onClose={() => {
+          setCheckCart(false);
+        }}
+        placement="left"
+        title="Confirm Your order "
+      >
+        <Form onFinish={(values)=>{
+          console.log(values);
+        message.success("order confirmed")
+        }}>
+          <FormItem label="Full Name:" required>
+            <Input placeholder="Enter your full name" required />
+          </FormItem>
+          <FormItem label="Email:" required>
+            <Input
+              type="email"
+              placeholder="Enter your unique email"
+              required
+            />
+          </FormItem>
+          <FormItem label="Full Address:" required>
+            <Input placeholder="Enter your full Address" required />
+          </FormItem>
+          <Button
+          onSubmit={()=>{
+            Form.reset()
+          }}
+          htmlType="submit" type="primary" className='text-black w-2/3 m-auto font-semibold bg-slate-400'>Confirm Your Order</Button>
+        </Form>
+      </Drawer>
     </div>
   );
 }
