@@ -23,16 +23,12 @@ const Products = () => {
   const param = useParams();
 
   useEffect(() => {
-  
-    
-    (
-     
-      param?.CategoryId
-        ? getProductByCategory(param.CategoryId)
-        : getAllProducts()
+    (param?.CategoryId
+      ? getProductByCategory(param.CategoryId)
+      : getAllProducts()
     )
       .then((response) => {
-        setLoading(true)
+        setLoading(true);
         setItems(response.products);
         setLoading(false);
       })
