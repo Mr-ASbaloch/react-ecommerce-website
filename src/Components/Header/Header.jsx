@@ -55,12 +55,15 @@ function Addcart() {
   const [cart, setCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [checkCart, setCheckCart] = useState(false);
+  const[name, setName]=useState("")
   useEffect(() => {
     getCart().then((res) => {
       setCartItems(res.products);
     });
   });
   return (
+   
+
     <div>
       <Badge
         onClick={() => {
@@ -137,10 +140,13 @@ function Addcart() {
       >
         <Form onFinish={(values)=>{
           console.log(values);
-        message.success("order confirmed")
+          message.success(`Congratulations  "${ name.toUpperCase()} ", You successfully confirmed your order`)
+        
         }}>
           <FormItem label="Full Name:" required>
-            <Input placeholder="Enter your full name" required />
+            <Input placeholder="Enter your full name" required  onChange={(e)=>{
+              setName (e.target.value)
+            }}/>
           </FormItem>
           <FormItem label="Email:" required>
             <Input
@@ -151,10 +157,10 @@ function Addcart() {
           </FormItem>
           <FormItem label="Full Address:" required>
             <Input placeholder="Enter your full Address" required />
-          </FormItem>
+          </FormItem>   
           <Button
           onSubmit={()=>{
-            Form.reset()
+            
           }}
           htmlType="submit" type="primary" className='text-black w-2/3 m-auto font-semibold bg-slate-400'>Confirm Your Order</Button>
         </Form>
